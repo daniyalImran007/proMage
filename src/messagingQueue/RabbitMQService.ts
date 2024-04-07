@@ -32,9 +32,7 @@ class RabbitMQService {
   public sendToQueue(message: string): void {
     if (!this.channelInitialized) {
       // Check channelInitialized instead of channel
-      throw new Error(
-        "RabbitMQ channel not initialized. Call connectToRabbitMQ() first."
-      );
+      throw new Error("RabbitMQ channel not initialized.");
     }
     this.channel?.sendToQueue(this.queueName, Buffer.from(message), {
       persistent: true,
@@ -42,26 +40,26 @@ class RabbitMQService {
     console.log(`[x] Sent message to queue: ${message}`);
   }
 
-  public consumeFromQueue(callback: (message: string) => void): void {
-    if (!this.channelInitialized) {
-      // Check channelInitialized instead of channel
-      throw new Error(
-        "RabbitMQ channel not initialized. Call connectToRabbitMQ() first."
-      );
-    }
-    this.channel?.consume(
-      this.queueName,
-      (msg) => {
-        if (msg !== null) {
-          callback(msg.content.toString());
-          this.channel?.ack(msg);
-        }
-      },
-      {
-        noAck: false,
-      }
-    );
-  }
+  // public consumeFromQueue(callback: (message: string) => void): void {
+  //   if (!this.channelInitialized) {
+  //     // Check channelInitialized instead of channel
+  //     throw new Error(
+  //       "RabbitMQ channel not initialized."
+  //     );
+  //   }
+  //   this.channel?.consume(
+  //     this.queueName,
+  //     (msg) => {
+  //       if (msg !== null) {
+  //         callback(msg.content.toString());
+  //         this.channel?.ack(msg);
+  //       }
+  //     },
+  //     {
+  //       noAck: false,
+  //     }
+  //   );
+  // }
 
   public isChannelInitialized(): boolean {
     return this.channelInitialized;

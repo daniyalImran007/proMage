@@ -1,15 +1,15 @@
 import { Request, Response } from "express";
 import { Project } from "../model/Project";
 import { ProjectRepo } from "../repository/ProjectRepo";
-import RabbitMQService from "../messagingQueue/RabbitMQService"; // Import RabbitMQService
+import RabbitMQService from "../messagingQueue/RabbitMQService";
 
 class ProjectController {
-  private readonly projectRepo: ProjectRepo; // Add ProjectRepo property
+  private readonly projectRepo: ProjectRepo;
 
   constructor(projectRepo: ProjectRepo) {
-    // Inject ProjectRepo into constructor
+    //inject
     this.projectRepo = projectRepo;
-    // Bind methods to ensure 'this' refers to the instance of ProjectController
+    // Binding for this
     this.create = this.create.bind(this);
     this.delete = this.delete.bind(this);
     this.findById = this.findById.bind(this);
